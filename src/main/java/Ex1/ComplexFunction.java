@@ -19,6 +19,26 @@ public class ComplexFunction implements complex_function {
 		this.right=null;
 		this.op=null;
 	}
+	public ComplexFunction(Operation op,function left,function right)
+	{
+		if(op == null)
+		{
+			throw new RuntimeException("The Operation is not vaild");
+		}
+		if(left!= null)
+		{
+			this.left = left.initFromString(left.toString());
+		}
+		else
+		{
+			throw new RuntimeException("The Operation is not vaild");
+		}
+		if(right != null)
+		{
+			this.right = right.initFromString(right.toString());
+		}
+		this.op = op;
+	}
 	public ComplexFunction(String op, function left,function right)
 	{
 		if(right!=null) 
