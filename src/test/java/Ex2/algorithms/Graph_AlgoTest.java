@@ -2,6 +2,7 @@ package Ex2.algorithms;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -76,7 +77,6 @@ class Graph_AlgoTest {
 		t.init(g);
 		
 		graph other = t.copy();
-		System.out.println(g.edgeSize()+"g"+ other.edgeSize()+"other");
 		assertEquals(g.edgeSize(), other.edgeSize());
 		
 		
@@ -135,11 +135,7 @@ class Graph_AlgoTest {
 		Point3D p5 = new Point3D(4,4);
 		Point3D p6 = new Point3D(5,5);
 		Point3D p7 = new Point3D(6,6);
-		Point3D p8 = new Point3D(7,7);
-		Point3D p9 = new Point3D(8,8);
-		Point3D p10 = new Point3D(9,9);
-		Point3D p11 = new Point3D(10,10);
-		Point3D p12 = new Point3D(11,11);
+	
 
 		graph s = new DGraph();
 
@@ -348,9 +344,55 @@ class Graph_AlgoTest {
 		//	System.out.println(test.shortestPathDist(8,7));		
 	}
 
-	//	@Test
-	//	void testTSP() {
-	//		fail("Not yet implemented");
-	//	}
+		@Test
+		void testTSP() {
+		
+			Point3D p1 = new Point3D(0,0);
+			Point3D p2 = new Point3D(1,1);
+			Point3D p3 = new Point3D(0,0);
+			Point3D p4 = new Point3D(1,1);
+			Point3D p5 = new Point3D(1,1);
+			
+			node_data v1 = new Node(1, p1);		
+			node_data v2 = new Node(2, p2);	
+			node_data v3 = new Node(3, p3);
+			node_data v4 = new Node(4, p4);
+			node_data v5 = new Node(5, p5);
+			
+			graph g = new DGraph();
+
+			g.addNode(v1);
+			g.addNode(v2);
+			g.addNode(v3);
+			g.addNode(v4);
+			g.addNode(v5);
+			
+			g.connect(v1.getKey(), v2.getKey(), 5);
+			g.connect(v2.getKey(), v3.getKey(), 5);
+			g.connect(v3.getKey(), v4.getKey(), 5);
+			g.connect(v4.getKey(), v5.getKey(), 5);
+			g.connect(v5.getKey(), v1.getKey(), 5);
+			
+			graph_algorithms test = new Graph_Algo();
+
+			test.init(g);
+
+			List<Integer> keys = new ArrayList<Integer>();
+			keys.add(1);
+			keys.add(5);
+			keys.add(4);
+//			List<node_data> ans =  new ArrayList<node_data>();
+			
+			List<node_data> ans = test.TSP(keys);
+			String expected ="";
+			for (int i = 0; i < ans.size() ; i++) {
+				if(i==ans.size()-1) {
+					expected += ans.get(i).getKey();
+				}else {
+				expected += ans.get(i).getKey()+">";	
+				}
+			}
+			assertEquals("1>2>3>4>5>1>2>3>4", expected);
+		}
 
 }
