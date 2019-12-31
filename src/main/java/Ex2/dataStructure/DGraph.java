@@ -11,27 +11,36 @@ public class DGraph implements graph,Serializable {
 
 	Hashtable<Integer, node_data> nodes = new Hashtable<Integer, node_data>();
 	Hashtable<node_data, Hashtable<Integer, edge_data>> edges = new Hashtable<node_data,Hashtable<Integer, edge_data>>();
-	public static int count_ed = 0;
-	public static int count_mc = 0;
+	private  int count_ed = 0;
+	private  int count_mc = 0;
 	@Override
 	public node_data getNode(int key) {
 		// TODO Auto-generated method stub
-		count_mc++;
+
 		return nodes.get(key);
+
 	}
 
 	@Override
 	public edge_data getEdge(int src, int dest) {
 		// TODO Auto-generated method stub
-		count_mc++;
-		node_data x = nodes.get(src);		
-		return edges.get(x).get(dest);
+
+		node_data x = null;
+		if(nodes.containsKey(src) && edges.get(nodes.get(src)).containsKey(dest)) {
+			x = nodes.get(src);	
+			return edges.get(x).get(dest);
+		}
+		else {
+
+			return null;
+		}
 	}
 
 	@Override
 	public void addNode(node_data n) {
 		// TODO Auto-generated method stub
 		count_mc++;
+		
 		nodes.put(n.getKey(), n);
 		edges.put(n , new Hashtable<Integer, edge_data>());
 	}
@@ -39,25 +48,34 @@ public class DGraph implements graph,Serializable {
 	@Override
 	public void connect(int src, int dest, double w) {
 		// TODO Auto-generated method stub
+		//src = dest
+		if(src==dest) {
+			return;
+		}
+		if(w<0) {
+			throw new RuntimeException("whight cant be negative value");
+		}
+		if(nodes.containsKey(src) && nodes.containsKey(dest)) {
 		count_mc++;
 		count_ed++;
 		edge_data e = new Edge(src, dest, w);
 		node_data k = nodes.get(src);
 		edges.get(k).put(dest, e);
-
+		}
+		
 	}
 
 	@Override
 	public Collection<node_data> getV() {
 		// TODO Auto-generated method stub
-		count_mc++;
+
 		return nodes.values();
 	}
 
 	@Override
 	public Collection<edge_data> getE(int node_id) {
 		// TODO Auto-generated method stub
-		count_mc++;
+
 		node_data k = nodes.get(node_id);
 		return edges.get(k).values();
 	}
@@ -66,10 +84,10 @@ public class DGraph implements graph,Serializable {
 	public node_data removeNode(int key) {
 		// TODO Auto-generated method stub
 		count_mc++;
-		
+
 		Collection<node_data> col = getV();
 		Iterator<node_data> itr = col.iterator();
-		
+
 		while (itr.hasNext()) 
 		{
 			node_data temp = itr.next();
@@ -98,14 +116,14 @@ public class DGraph implements graph,Serializable {
 	@Override
 	public int nodeSize() {
 		// TODO Auto-generated method stub
-		count_mc++;
+
 		return nodes.size();
 	}
 
 	@Override
 	public int edgeSize() {
 		// TODO Auto-generated method stub
-		count_mc++;
+
 		return count_ed;
 	}
 
@@ -114,5 +132,5 @@ public class DGraph implements graph,Serializable {
 		// TODO Auto-generated method stub
 		return count_mc;
 	}
-	
+
 }
