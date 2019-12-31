@@ -24,6 +24,7 @@ public class Edge implements edge_data,Serializable {
 		this.dest=dest;
 		this.info = info;
 		this.setTag(tag);
+	
 	}
 
 	@Override

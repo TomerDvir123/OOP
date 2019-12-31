@@ -14,31 +14,8 @@ class Graph_AlgoTest {
 
 	@Test
 	void testInitGraph() {
-
-		Point3D p1 = new Point3D(0,0);
-		Point3D p2 = new Point3D(1,1);
-
-		node_data v1 = new Node(1, p1);		
-		node_data v2 = new Node(2, p2);	
-
-		graph g = new DGraph();
-
-		g.addNode(v1);
-		g.addNode(v2);
-
-		g.connect(v1.getKey(), v2.getKey(), 5);
-
-		graph_algorithms test = new Graph_Algo();
-
-		try {
-			test.init(g);
-		} catch (Exception e) {
-			fail("Not yet implemented");	
-		}
-	}
-
-	@Test
-	void testCopy() {
+		
+		
 		Point3D p1 = new Point3D(0,0);
 		graph g = new DGraph();
 		for (int i = 1; i <= 1000000 ; i++) {
@@ -61,28 +38,55 @@ class Graph_AlgoTest {
 		}
 
 		graph_algorithms test = new Graph_Algo();
-		test.init(g);
+		
+		try {
+			test.init(g);
+		} catch (Exception e) {
+			// TODO: handle exception
+			fail("cant init graph");
+		}
 	}
-	//System.out.println(test.shortestPathDist(1,20));}
-	//fail("Not yet implemented");
 
-
+	@Test
+	void testCopy() {
+		
+		Point3D p1 = new Point3D(0,0);
+		Point3D p2 = new Point3D(0,0);
+		Point3D p3 = new Point3D(0,0);
+		Point3D p4 = new Point3D(0,0);
+		
+		graph g = new DGraph();
+		
+		node_data v1 = new Node(1, p1);		
+		node_data v2 = new Node(2, p2);	
+		node_data v3 = new Node(3, p1);		
+		node_data v4 = new Node(4, p2);	
+		
+		g.addNode(v1);
+		g.addNode(v2);
+		g.addNode(v3);
+		g.addNode(v4);
+		
+		g.connect(1, 2, 3);
+		g.connect(2, 3, 3);
+		g.connect(3, 4, 3);
+		g.connect(4, 1, 3);
+		
+		graph_algorithms t = new Graph_Algo();
+		t.init(g);
+		
+		graph other = t.copy();
+		System.out.println(g.edgeSize()+"g"+ other.edgeSize()+"other");
+		assertEquals(g.edgeSize(), other.edgeSize());
+		
+		
+		
+	}
 
 	@Test
 	void testInitString() {
-		//		Point3D p1 = new Point3D(0,0);
-		//		Point3D p2 = new Point3D(1,1);
-		//
-		//		node_data v1 = new Node(1, p1);		
-		//		node_data v2 = new Node(2, p2);	
-		//
-		//		graph g = new DGraph();
-		//
-		//		g.addNode(v1);
-		//		g.addNode(v2);
-		//
-		//		g.connect(v1.getKey(), v2.getKey(), 5);
-
+		//loads a graph 
+		//from file
 		graph_algorithms test = new Graph_Algo();
 
 		try {
@@ -96,7 +100,7 @@ class Graph_AlgoTest {
 
 	@Test
 	void testSave() {
-
+		//saves file
 		Point3D p1 = new Point3D(0,0);
 		Point3D p2 = new Point3D(1,1);
 

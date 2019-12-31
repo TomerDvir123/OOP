@@ -293,44 +293,47 @@ public class Graph_Algo implements graph_algorithms,Serializable {
 
 		graph a = new DGraph();
 
-		Collection<node_data> nod = this.grap.getV();
-		Iterator<node_data> it = nod.iterator();
-
-		while(it.hasNext()) {
-
-			node_data temp_node = it.next();
-			//deep copy of Node
-			int key = temp_node.getKey();
-			Point3D Location = new Point3D(temp_node.getLocation().x() , temp_node.getLocation().y() , temp_node.getLocation().z() );
-			double weight = temp_node.getWeight();
+		Collection<node_data> now = this.grap.getV();
+		for (node_data n2 : now) {		
+			int key = n2.getKey();
+			Point3D Location = new Point3D(n2.getLocation().x() , n2.getLocation().y() , n2.getLocation().z() );
+			double weight = n2.getWeight();
+			int tag = n2.getTag();
 			String info;
-			if(temp_node.getInfo()==null)
+			if(n2.getInfo()==null)
 			{
 				info = new String("");
 			}
-			else {
-				info = new String(temp_node.getInfo());
+			else 
+			{
+				info = new String(n2.getInfo());
 			}
-			int tag = temp_node.getTag();
-			a.addNode(new Node(key, Location, weight, info, tag));
-			Collection<edge_data> edg = this.grap.getE(temp_node.getKey());
-			Iterator<edge_data> it2 = edg.iterator();
+			a.addNode(new Node(key, Location, weight, info, tag));			
+		}
 
-			while(it2.hasNext()) {
-				edge_data ed = it2.next();
+		for (node_data n2 : now) {
+			Collection<edge_data> edg = this.grap.getE(n2.getKey());
+
+			for (edge_data ed : edg) {
 				//deep copy of Edge
 				int src = ed.getSrc();
 				int dest = ed.getDest();
 				double edge_weight = ed.getWeight();
-				String edge_info = new String(ed.getInfo());
+				String edge_info ;
+				if(ed.getInfo()==null)
+				{
+					edge_info = new String("");
+				}
+				else 
+				{
+					edge_info = new String(ed.getInfo());
+				}
 				int edge_tag = ed.getTag();
 				a.connect(src, dest, edge_weight);
 				a.getEdge(src, dest).setInfo(edge_info);
 				a.getEdge(src, dest).setTag(edge_tag);
 			}
-
 		}
-
 		return a;
 
 	}

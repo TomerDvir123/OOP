@@ -11,8 +11,8 @@ public class DGraph implements graph,Serializable {
 
 	Hashtable<Integer, node_data> nodes = new Hashtable<Integer, node_data>();
 	Hashtable<node_data, Hashtable<Integer, edge_data>> edges = new Hashtable<node_data,Hashtable<Integer, edge_data>>();
-	private  int count_ed = 0;
-	private  int count_mc = 0;
+	 int count_ed = 0;
+  int count_mc = 0;
 	@Override
 	public node_data getNode(int key) {
 		// TODO Auto-generated method stub
