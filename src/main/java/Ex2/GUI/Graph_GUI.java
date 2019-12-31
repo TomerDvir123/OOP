@@ -1,4 +1,3 @@
-
 package Ex2.GUI;
 
 import java.awt.Color;
@@ -29,7 +28,7 @@ import Ex2.utils.*;
 public class Graph_GUI extends JFrame implements ActionListener, MouseListener,Serializable
 {
 	private static JFrame frame;
-	graph grap;	
+	graph grap;
 	LinkedList<Point3D> points = new LinkedList<Point3D>();
 	ArrayList<node_data> SP= new ArrayList<node_data>();
 	public Graph_GUI()
@@ -134,7 +133,8 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 					g.setColor(Color.yellow);
 					g.fillOval((xxxxx+this.grap.getNode(ed.getDest()).getLocation().ix())/2, (yyyyy+this.grap.getNode(ed.getDest()).getLocation().iy())/2, 10, 10);
 					g.setColor(Color.BLACK);
-					g.drawString(""+ed.getWeight(), (int)((x1+x2)/2),(int)((y1+y2)/2));
+					double ans = Math.floor(ed.getWeight()*100)/100;
+					g.drawString(""+ans, (int)((x1+x2)/2),(int)((y1+y2)/2));
 				}
 			}
 		}
@@ -148,60 +148,58 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 	{
 		String str = e.getActionCommand();
 		if(str.equals("TSP"))
-		{
-			ArrayList<Integer> keys = new ArrayList<Integer>();
+		{ArrayList<Integer> keys = new ArrayList<Integer>();
 
-			JFrame jinput = new JFrame();
-			JOptionPane.showMessageDialog(jinput, "Enter all TSP nodes , from Start to Dest : "
-					+ "\nenter stop when you finish!!");
+		JFrame jinput = new JFrame();
+		JOptionPane.showMessageDialog(jinput, "Enter all TSP nodes , from Start to Dest : "
+				+ "\nenter stop when you finish!!");
 
-			String start;
+		String start;
 
-			do {
-				start = JOptionPane.showInputDialog(jinput,"Enter all TSP nodes , from Start to Dest : \nor 'stop' to finish ");
-				if(start.equals("stop"))
-				{
-					break;
-				}
-				try
-				{
-					keys.add(Integer.parseInt(start));
-				}
-				catch (Exception e2)
-				{
-					e2.printStackTrace();
-					JOptionPane.showMessageDialog(jinput, "Enter good Input : int or 'stop' to finish  ");
-				}
-
-			}
-			while(!start.equals("stop"));
-
-			Graph_Algo temp = new Graph_Algo();
-			temp.init(grap);
-			java.util.List<node_data> k = temp.TSP(keys);
-			if(k.size()!=0) 
+		do {
+			start = JOptionPane.showInputDialog(jinput,"Enter all TSP nodes , from Start to Dest : \nor 'stop' to finish ");
+			if(start.equals("stop"))
 			{
-				for (int i = 0 ; i <k.size() ; i++) {
-					SP.add(k.get(i));
-				}
-				String msg="" ;
-				for (int i = 0 ; i <SP.size()-1 ; i++) {
-
-					this.grap.getEdge(SP.get(i).getKey(), SP.get(i+1).getKey()).setTag(2);
-					msg= msg+SP.get(i).getKey()+"->";
-				}
-				int siz = SP.size()-1;
-				msg = msg + SP.get(siz).getKey();
-				repaint();
-				SP = new ArrayList<node_data>();
-				JOptionPane.showMessageDialog(jinput, "path :\n"+msg+"");
+				break;
 			}
-			else
+			try
 			{
-				JOptionPane.showMessageDialog(jinput, "some path not valid ");
+				keys.add(Integer.parseInt(start));
 			}
-			SP = new ArrayList<node_data>();
+			catch (Exception e2)
+			{
+				e2.printStackTrace();
+				JOptionPane.showMessageDialog(jinput, "Enter good Input : int or 'stop' to finish  ");
+			}
 		}
+		while(!start.equals("stop"));
+
+		Graph_Algo temp = new Graph_Algo();
+		temp.init(grap);
+		java.util.List<node_data> k = temp.TSP(keys);
+		
+		if(k!=null && k.size()!=0 ) 
+		{
+			for (int i = 0 ; i <k.size() ; i++) {
+				SP.add(k.get(i));
+			}
+			String msg="" ;
+			for (int i = 0 ; i <SP.size()-1 ; i++) {
+
+				this.grap.getEdge(SP.get(i).getKey(), SP.get(i+1).getKey()).setTag(2);
+				msg= msg+SP.get(i).getKey()+"->";
+			}
+			int siz = SP.size()-1;
+			msg = msg + SP.get(siz).getKey();
+			repaint();
+			SP = new ArrayList<node_data>();
+			JOptionPane.showMessageDialog(jinput, "path :\n"+msg+"");
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(jinput, "some path not valid ");
+		}
+		SP = new ArrayList<node_data>();}
 
 		////Shortest path distance///
 		if(str.equals("Shortest path dist"))
@@ -219,7 +217,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 				int des = Integer.parseInt(finish);
 
 				x = temp.shortestPathDist(src, des);
-				if(x!=-1) 
+				if(x!=-1)
 				{
 					JOptionPane.showMessageDialog(jinput, "The shortest distance is: " + x);
 				}
@@ -258,7 +256,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 			catch (Exception e2) {
 				e2.printStackTrace();
 			}
-			if(nodes.size()!=0) 
+			if(nodes.size()!=0)
 			{
 				for (int i = nodes.size()-1; i >= 0; i--) {
 					SP.add(nodes.get(i));
@@ -313,7 +311,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 			FileDialog chooser = new FileDialog(Graph_GUI.frame, "Use a .txt extension", FileDialog.SAVE);
 			chooser.setVisible(true);
 			String filename = chooser.getFile();
-			if (filename != null) 
+			if (filename != null)
 			{
 				temp.save(chooser.getDirectory()+filename+".txt");
 			}
@@ -342,7 +340,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 
 		//test1
 		if(str.equals("test1"))
-		{		
+		{
 			Point3D a = new Point3D(25,90,0);
 			Point3D b = new Point3D(340,300,0);
 			Point3D c = new Point3D(24,300,0);
@@ -373,10 +371,11 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 			grap.connect(v1.getKey(), v3.getKey(), 5);
 			grap.connect(v2.getKey(), v3.getKey(), 5);
 			grap.connect(v2.getKey(), v5.getKey(), 1);
-			Graph_GUI window = new Graph_GUI(grap);
-
-
-			window.setVisible(true);
+			// Graph_GUI window = new Graph_GUI(grap);
+			//
+			//
+			// window.setVisible(true);
+			this.grap=grap;
 			repaint();
 		}
 		if(str.equals("test2"))
@@ -408,7 +407,7 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 			grap.addNode(v5);
 			grap.addNode(v6);
 			grap.addNode(v7);
-			//	grap.addNode(v8);
+			// grap.addNode(v8);
 			grap.connect(v1.getKey(), v2.getKey(), 6);
 			grap.connect(v2.getKey(), v3.getKey(), 10);
 			grap.connect(v3.getKey(), v4.getKey(), 9);
@@ -425,8 +424,9 @@ public class Graph_GUI extends JFrame implements ActionListener, MouseListener,S
 			grap.connect(v6.getKey(), v5.getKey(), 1);
 			grap.connect(v4.getKey(), v6.getKey(), 3);
 
-			Graph_GUI window = new Graph_GUI(grap);
-			window.setVisible(true);
+			this.grap=grap;
+			// Graph_GUI window = new Graph_GUI(grap);
+			// window.setVisible(true);
 			repaint();
 
 		}

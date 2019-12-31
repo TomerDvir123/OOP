@@ -219,7 +219,12 @@ public class Graph_Algo implements graph_algorithms,Serializable {
 
 		if(this.grap.getNode(src)!=null && this.grap.getNode(dest)!=null)
 		{
-			shortestPathDist(src, dest);
+			//if max val
+			double check =shortestPathDist(src, dest);
+			if(check==Double.MAX_VALUE) {
+				//no path
+				return rememberWay;
+			}
 			int now = dest;
 			while (now!=src) {
 				node_data temp = this.grap.getNode(now);
@@ -241,44 +246,46 @@ public class Graph_Algo implements graph_algorithms,Serializable {
 	}
 
 	@Override
-	public List<node_data> TSP(List<Integer> targets) {
-
-		List<node_data> nodesTSP = new ArrayList<node_data>();
-		for (int i = 0; i < targets.size(); i++) {
-			if(this.grap.getNode(targets.get(i))==null) {
-				return nodesTSP;
-			}
-		}
-
-		if(targets.size()==1) {
-
-			node_data one = this.grap.getNode(targets.get(0));
-			nodesTSP.add(one);
+	public List<node_data> TSP(List<Integer> targets) {List<node_data> nodesTSP = new ArrayList<node_data>();
+	for (int i = 0; i < targets.size(); i++) {
+		if(this.grap.getNode(targets.get(i))==null) {
 			return nodesTSP;
 		}
-		else {
-			nodesTSP = new ArrayList<node_data>();
-			List<node_data> nodesTSP_temp = new ArrayList<node_data>();
-			int i = 0;
-			while(i+1<targets.size())
+	}
+
+	if(targets.size()==1) {
+
+		node_data one = this.grap.getNode(targets.get(0));
+		nodesTSP.add(one);
+		return nodesTSP;
+	}
+	else {
+		nodesTSP = new ArrayList<node_data>();
+		List<node_data> nodesTSP_temp = new ArrayList<node_data>();
+		int i = 0;
+		while(i+1<targets.size())
+		{
+			nodesTSP_temp = shortestPath(targets.get(i), targets.get(i+1));
+			if(nodesTSP_temp.size()==0)
 			{
-				nodesTSP_temp = shortestPath(targets.get(i), targets.get(i+1));
-				for (int k = nodesTSP_temp.size()-1 ; k >= 0  ; k--)
-				{
-
-					if(nodesTSP.contains(nodesTSP_temp.get(k)) && k==nodesTSP_temp.size()-1)
-					{
-						;
-					}
-					else
-					{
-						nodesTSP.add(nodesTSP_temp.get(k));
-					}
-				}
-				i++;
+				return null;
 			}
-			return nodesTSP;
+			for (int k = nodesTSP_temp.size()-1 ; k >= 0  ; k--)
+			{
+
+				if(nodesTSP.contains(nodesTSP_temp.get(k)) && k==nodesTSP_temp.size()-1)
+				{
+					;
+				}
+				else
+				{
+					nodesTSP.add(nodesTSP_temp.get(k));
+				}
+			}
+			i++;
 		}
+		return nodesTSP;
+	}
 	}
 
 	@Override
