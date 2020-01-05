@@ -30,6 +30,14 @@ public class Graph_Algo implements graph_algorithms,Serializable {
 
 	graph grap;
 
+	public Graph_Algo(graph _graph) {
+		// TODO Auto-generated constructor stub
+		this.grap = _graph;
+	}
+	public Graph_Algo() {
+		// TODO Auto-generated constructor stub
+		this.grap = new DGraph();
+	}
 	@Override
 	public void init(graph g) {
 		// TODO Auto-generated method stub
@@ -85,6 +93,10 @@ public class Graph_Algo implements graph_algorithms,Serializable {
 	@Override
 	public boolean isConnected() {
 		// TODO Auto-generated method stub
+		if(this.grap.edgeSize()==0 && this.grap.nodeSize()==0)
+		{
+			return true;
+		}
 		cleanGraf();
 		Collection<node_data> colnod = this.grap.getV();
 		Iterator<node_data> connect = colnod.iterator();

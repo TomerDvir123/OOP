@@ -1,8 +1,8 @@
 
 package Tests;
-import GUI.Graph_GUI;
 import dataStructure.*;
 import dataStructure.Node;
+import gui.Graph_GUI;
 import utils.Point3D;
 
 public class GUI_Test {
